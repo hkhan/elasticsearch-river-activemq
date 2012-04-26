@@ -17,12 +17,9 @@
  * under the License.
  */
 
-package org.elasticsearch.river.rabbitmq;
+package org.elasticsearch.river.activemq;
 
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+import net.ser1.stomp.Client;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -32,33 +29,26 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 /**
  *
  */
-public class RabbitMQRiverTest {
+public class ActiveMQRiverTest {
 
     public static void main(String[] args) throws Exception {
 
+        /* Building the elasticsearch node */
         Node node = NodeBuilder.nodeBuilder().settings(ImmutableSettings.settingsBuilder().put("gateway.type", "none")).node();
 
-        node.client().prepareIndex("_river", "test1", "_meta").setSource(jsonBuilder().startObject().field("type", "rabbitmq").endObject()).execute().actionGet();
+        node.client().prepareIndex("_river", "test1", "_meta").setSource(jsonBuilder().startObject().field("type", "activemq").endObject()).execute().actionGet();
 
-        ConnectionFactory cfconn = new ConnectionFactory();
-        cfconn.setHost("localhost");
-        cfconn.setPort(AMQP.PROTOCOL.PORT);
-        Connection conn = cfconn.newConnection();
-
-        Channel ch = conn.createChannel();
-        ch.exchangeDeclare("elasticsearch", "direct", true);
-        ch.queueDeclare("elasticsearch", true, false, false, null);
+        /* Connecting to queue */
+        Client stomp_client = new Client("localhost", 61613, "guest", "guest" );
 
         String message = "{ \"index\" : { \"index\" : \"test\", \"type\" : \"type1\", \"id\" : \"1\" }\n" +
-                "{ \"type1\" : { \"field1\" : \"value1\" } }\n" +
-                "{ \"delete\" : { \"index\" : \"test\", \"type\" : \"type1\", \"id\" : \"2\" } }\n" +
-                "{ \"create\" : { \"index\" : \"test\", \"type\" : \"type1\", \"id\" : \"1\" }\n" +
-                "{ \"type1\" : { \"field1\" : \"value1\" } }";
+                         "{ \"type1\" : { \"field1\" : \"value1\" } }\n" +
+                         "{ \"delete\" : { \"index\" : \"test\", \"type\" : \"type1\", \"id\" : \"2\" } }\n" +
+                         "{ \"create\" : { \"index\" : \"test\", \"type\" : \"type1\", \"id\" : \"1\" }\n" +
+                         "{ \"type1\" : { \"field1\" : \"value1\" } }";
 
-        ch.basicPublish("elasticsearch", "elasticsearch", null, message.getBytes());
+        stomp_client.send("/elasticsearch", message);
 
-        ch.close();
-        conn.close();
 
         Thread.sleep(100000);
     }

@@ -19,7 +19,7 @@
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <includes>
-                <include>com.rabbitmq:amqp-client</include>
+                <include>net.ser1.stomp:gozirra-client</include>
             </includes>
         </dependencySet>
     </dependencySets>

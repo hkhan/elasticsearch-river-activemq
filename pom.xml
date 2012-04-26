@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <name>elasticsearch-river-rabbitmq</name>
+    <name>elasticsearch-river-activemq</name>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.elasticsearch</groupId>
-    <artifactId>elasticsearch-river-rabbitmq</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <artifactId>elasticsearch-river-activemq</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
-    <description>RabbitMQ River for ElasticSearch</description>
+    <description>ActiveMQ River for ElasticSearch</description>
     <inceptionYear>2009</inceptionYear>
     <licenses>
         <license>
@@ -18,9 +18,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:elasticsearch/elasticsearch-river-rabbitmq.git</connection>
-        <developerConnection>scm:git:git@github.com:elasticsearch/elasticsearch-river-rabbitmq.git</developerConnection>
-        <url>http://github.com/elasticsearch/elasticsearch-river-rabbitmq</url>
+        <connection>scm:git:git@github.com:clowder/elasticsearch-river-activemq.git</connection>
+        <developerConnection>scm:git:git@github.com:clowder/elasticsearch-river-activemq.git</developerConnection>
+        <url>http://github.com/clowder/elasticsearch-river-activemq</url>
     </scm>
 
     <parent>
@@ -30,7 +30,7 @@
     </parent>
 
     <properties>
-        <elasticsearch.version>0.19.0.RC3</elasticsearch.version>
+        <elasticsearch.version>0.19.2</elasticsearch.version>
     </properties>
 
     <repositories>
@@ -45,10 +45,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>2.7.0</version>
-            <scope>compile</scope>
+            <groupId>net.ser1.stomp</groupId>
+            <artifactId>gozirra-client</artifactId>
+            <version>0.4.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gozirra-client-0.4.1.jar</systemPath>
         </dependency>
 
         <dependency>

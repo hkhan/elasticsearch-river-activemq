@@ -17,18 +17,33 @@
  * under the License.
  */
 
-package org.elasticsearch.river.rabbitmq;
+package org.elasticsearch.plugin.river.activemq;
 
-import org.elasticsearch.common.inject.AbstractModule;
-import org.elasticsearch.river.River;
+import org.elasticsearch.common.inject.Inject;
+import org.elasticsearch.plugins.AbstractPlugin;
+import org.elasticsearch.river.RiversModule;
+import org.elasticsearch.river.activemq.ActivemqRiverModule;
 
 /**
  *
  */
-public class RabbitmqRiverModule extends AbstractModule {
+public class ActivemqRiverPlugin extends AbstractPlugin {
+
+    @Inject
+    public ActivemqRiverPlugin() {
+    }
 
     @Override
-    protected void configure() {
-        bind(River.class).to(RabbitmqRiver.class).asEagerSingleton();
+    public String name() {
+        return "river-activemq";
+    }
+
+    @Override
+    public String description() {
+        return "River ActiveMQ Plugin";
+    }
+
+    public void onModule(RiversModule module) {
+        module.registerRiver("activemq", ActivemqRiverModule.class);
     }
 }
