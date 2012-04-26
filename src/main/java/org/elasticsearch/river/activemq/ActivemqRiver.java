@@ -60,7 +60,7 @@ public class ActivemqRiver extends AbstractRiverComponent implements River {
         super(riverName, settings);
         this.client = client;
 
-        if (settings.settings().containsKey("activemqmq")) {
+        if (settings.settings().containsKey("activemq")) {
             Map<String, Object> activemqSettings = (Map<String, Object>) settings.settings().get("activemq");
             activemqHost = XContentMapValues.nodeStringValue(activemqSettings.get("host"), "localhost");
             activemqPort = XContentMapValues.nodeIntegerValue(activemqSettings.get("port"), 61613);
@@ -80,7 +80,7 @@ public class ActivemqRiver extends AbstractRiverComponent implements River {
     public void start() {
         logger.info("creating activemq river, host [{}], port [{}], user [{}]", activemqHost, activemqPort, activemqUser, activemqPassword);
 
-        thread = EsExecutors.daemonThreadFactory(settings.globalSettings(), "activemqmq_river").newThread(new Consumer());
+        thread = EsExecutors.daemonThreadFactory(settings.globalSettings(), "activemq_river").newThread(new Consumer());
         thread.start();
     }
 
@@ -89,7 +89,7 @@ public class ActivemqRiver extends AbstractRiverComponent implements River {
         if (closed) {
             return;
         }
-        logger.info("closing activemqmq river");
+        logger.info("closing activemq river");
         closed = true;
         thread.interrupt();
     }
