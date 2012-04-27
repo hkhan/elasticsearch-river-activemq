@@ -34,6 +34,19 @@
     </properties>
 
     <repositories>
+
+        <repository>
+            <id>my-local-repo</id>
+            <url>file://${project.basedir}/lib</url>
+        </repository>
+
+        <repository>
+            <id>oss.sonatype.org</id>
+            <name>OSS Sonatype</name>
+            <url>http://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+
+
     </repositories>
 
     <dependencies>
@@ -48,8 +61,6 @@
             <groupId>net.ser1.stomp</groupId>
             <artifactId>gozirra-client</artifactId>
             <version>0.4.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/gozirra-client-0.4.1.jar</systemPath>
         </dependency>
 
         <dependency>
